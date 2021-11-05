@@ -7,7 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public float normalSpeed = 7.0f;
     public float minSpeed = 1.0f;
     public float maxSpeed = 20.0f;
-    
+    public float saltoSpeed = 1.0f;
+
     private float currentSpeed;
     public State state;
     public enum State
@@ -21,8 +22,6 @@ public class PlayerMovement : MonoBehaviour
     private float _currentSpeed;
 
     public float jumpForce = 12.0f;
-    public float groundedDrag;
-    public float jumpDrag;
     public bool runner = false;
 
     private Rigidbody2D _body;
@@ -33,11 +32,9 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject _currentPlatform;
 
-    private float _moveHorDirection;
+
     private bool _brakePressed = false;
     private bool _jumpPressed = false;
-
-
 
     private float _normalMass;
 
@@ -65,9 +62,10 @@ public class PlayerMovement : MonoBehaviour
             //runner = false;
             _body.mass = _normalMass;
         }
-        else
+        else if (state == State.GROUNDED)
         {
-           //runner = true;
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+            _body.freezeRotation = false;
         }
     }
 
@@ -107,7 +105,26 @@ public class PlayerMovement : MonoBehaviour
             
             state = State.IN_JUMP;
             _jumpPressed = false;
+
+            DoSalto();
         }
+    }
+
+    private void DoSalto()
+    {
+        _body.freezeRotation = false;
+
+        var direction = Random.RandomRange(0, 100);
+        if (direction < 50.0f)
+            saltoSpeed *= -1;
+
+        //var normalSalto = saltoSpeed;
+        //var doubleSalto = Random.RandomRange(0, 100);
+        //if (doubleSalto < 50.0f)
+        //    saltoSpeed *= 2;
+
+        _body.AddTorque(saltoSpeed);
+        //saltoSpeed = normalSalto;
     }
 
     void CheckGroundAndPlatform()
