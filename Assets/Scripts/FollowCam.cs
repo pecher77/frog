@@ -6,27 +6,36 @@ public class FollowCam : MonoBehaviour
 {
     public Transform player;
 
-    
     private Vector3 _velocity = Vector3.zero;
     public float offsetX = 5.0f;
     public float offsetY = 5.0f;
-    public float deathY = 5.0f;
+    public float lowLimitY = 5.0f;
+    public float highLimitY = 5.0f;
 
     private float smoothTime = 0.2f;
-    private float normalY;
+    private float lowLimit;
+    private float highLimit;
 
     void Start()
     {
-        normalY = player.position.y;
+        lowLimit = player.position.y - lowLimitY;
+        highLimit = player.position.y + highLimitY;
     }
 
     void LateUpdate()
     {
-        Vector3 playerPosition = new Vector3(player.position.x + offsetX, player.position.y + offsetY, transform.position.z);
-        if (playerPosition.y < normalY - deathY)
+
+        float y = player.position.y + offsetY;
+        if (y < lowLimit)
         {
-            playerPosition.y = transform.position.y;
+            y = lowLimit;
         }
+        else if (y > highLimit)
+        {
+            y = highLimit;
+        }
+
+        Vector3 playerPosition = new Vector3(player.position.x + offsetX, y, transform.position.z);
         transform.position = Vector3.SmoothDamp(transform.position, playerPosition, ref _velocity, smoothTime);
     }
 }

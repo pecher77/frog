@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float normalSpeed = 7.0f;
     public float minSpeed = 1.0f;
     public float maxSpeed = 20.0f;
+    public bool salto = true;
     public float saltoSpeed = 1.0f;
 
     private float currentSpeed;
@@ -28,10 +29,10 @@ public class PlayerMovement : MonoBehaviour
     private ControllerColliderHit _contact;
     private BoxCollider2D _collider;
 
+    private RaycastHit2D groundHit;
+
     private Vector3 _persScale;
-
     private GameObject _currentPlatform;
-
 
     private bool _brakePressed = false;
     private bool _jumpPressed = false;
@@ -51,15 +52,35 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         CheckState();
-        CheckGroundAndPlatform();
+        ProcessState();
         GetInput();
     }
 
     private void CheckState()
     {
+        if (CheckGround(1.2f))
+        {
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+        if (CheckGround(1.5f))
+        {
+            state = State.GROUNDED;
+            if (CheckPlatform())
+            {
+                state = State.ON_PLATFORM;
+            }
+        }
+        else
+        {
+            state = State.IN_JUMP;
+            ResetParentTransform();
+        }
+    }
+
+    private void ProcessState()
+    {
         if (state == State.IN_JUMP)
         {
-            //runner = false;
             _body.mass = _normalMass;
         }
         else if (state == State.GROUNDED)
@@ -68,6 +89,8 @@ public class PlayerMovement : MonoBehaviour
             _body.freezeRotation = false;
         }
     }
+
+    public State GetState() { return state;  }
 
     private void FixedUpdate()
     {
@@ -106,7 +129,10 @@ public class PlayerMovement : MonoBehaviour
             state = State.IN_JUMP;
             _jumpPressed = false;
 
-            DoSalto();
+            if (salto)
+            {
+                DoSalto();
+            }
         }
     }
 
@@ -118,53 +144,52 @@ public class PlayerMovement : MonoBehaviour
         if (direction < 50.0f)
             saltoSpeed *= -1;
 
-        //var normalSalto = saltoSpeed;
-        //var doubleSalto = Random.RandomRange(0, 100);
-        //if (doubleSalto < 50.0f)
-        //    saltoSpeed *= 2;
+        var normalSalto = saltoSpeed;
+        var doubleSalto = Random.RandomRange(0, 100);
+        if (doubleSalto < 50.0f)
+            saltoSpeed *= 2;
 
         _body.AddTorque(saltoSpeed);
-        //saltoSpeed = normalSalto;
+        saltoSpeed = normalSalto;
     }
 
-    void CheckGroundAndPlatform()
+    bool CheckGround(float distanceRatio)
     {
         RaycastHit2D[] allHits;
         allHits = Physics2D.RaycastAll(transform.position, Vector3.down);
 
-        state = State.IN_JUMP;
-        var dis = (_collider.size.y * transform.localScale.y) / 1.7f;
+        var dis = (_collider.size.y * transform.localScale.y) / distanceRatio;
         foreach (var hit in allHits)
         {
             if (hit.collider != _collider && hit.distance <= dis)
             {
-                state = State.GROUNDED;
-                CheckPlatfotm(hit);
-                return;
+                groundHit = hit;
+                return true;
             }
         }
-       
-        ResetParentTransform();
+
+        return false;
     }
 
-    void CheckPlatfotm(RaycastHit2D hit)
+    bool CheckPlatform()
     {
         MovingPlatform platform = null;
         Vector3 pScale = Vector3.one;
 
-        platform = hit.collider.gameObject.GetComponent<MovingPlatform>();
+        platform = groundHit.collider.gameObject.GetComponent<MovingPlatform>();
         if (platform)
         {
-            _currentPlatform = hit.collider.gameObject;
+            _currentPlatform = groundHit.collider.gameObject;
             transform.parent = platform.transform;
             pScale = platform.transform.localScale;
             transform.localScale = new Vector3(_persScale.x / pScale.x, _persScale.y / pScale.y, 1);
-            state = State.ON_PLATFORM;
+            return true;
         }
         else
         {
             transform.localScale = _persScale;
             transform.parent = null;
+            return false;
         }
     }
 
