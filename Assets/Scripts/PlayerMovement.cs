@@ -7,8 +7,18 @@ public class PlayerMovement : MonoBehaviour
     public float normalSpeed = 7.0f;
     public float minSpeed = 1.0f;
     public float maxSpeed = 20.0f;
+    public bool DebagEnabled = false;
+
+    public float noJumpTime = 0.5f;
+    private float _noJumpAccum;
+    private bool canJump = true;
+    private bool normalRotation = true;
+
     public bool salto = true;
     public float saltoSpeed = 1.0f;
+
+    public float BrakeRatio = 0.9f;
+    public float AccelarationRatio = 1.05f;
 
     private float currentSpeed;
     public State state;
@@ -18,9 +28,6 @@ public class PlayerMovement : MonoBehaviour
         IN_JUMP,
         ON_PLATFORM
     }
-
-
-    private float _currentSpeed;
 
     public float jumpForce = 12.0f;
     public bool runner = false;
@@ -35,9 +42,13 @@ public class PlayerMovement : MonoBehaviour
     private GameObject _currentPlatform;
 
     private bool _brakePressed = false;
+    private bool _accelarationPressed = false;
+
     private bool _jumpPressed = false;
 
     private float _normalMass;
+
+
 
     void Start()
     {
@@ -58,13 +69,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckState()
     {
-        if (CheckGround(1.2f))
-        {
-            transform.rotation = new Quaternion(0, 0, 0, 0);
-        }
-        if (CheckGround(1.5f))
+        //чтобы наверн€ка завершить переворот сальто
+        //if (CheckGround(0.2f, 0.3f))
+        //{
+        //    transform.rotation = new Quaternion(0, 0, 0, 0);
+        //    normalRotation = true;
+        //    _body.freezeRotation = true;
+        //}
+        if (CheckGround())
         {
             state = State.GROUNDED;
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+            normalRotation = true;
+            _body.freezeRotation = true;
             if (CheckPlatform())
             {
                 state = State.ON_PLATFORM;
@@ -83,11 +100,6 @@ public class PlayerMovement : MonoBehaviour
         {
             _body.mass = _normalMass;
         }
-        else if (state == State.GROUNDED)
-        {
-            transform.rotation = new Quaternion(0, 0, 0, 0);
-            _body.freezeRotation = false;
-        }
     }
 
     public State GetState() { return state;  }
@@ -102,16 +114,21 @@ public class PlayerMovement : MonoBehaviour
     {
         var axis = Input.GetAxis("Horizontal");
         _brakePressed = axis < -0.001f;
+        _accelarationPressed = axis > 0.001f;
 
-        if (Input.GetKeyDown(KeyCode.Space) && state == State.GROUNDED)
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.Space))
             _jumpPressed = true;
+        else
+            _jumpPressed = false;
     }
 
     void Move()
     {
-        float braking = _brakePressed ? 0.9f : 1.0f;
-        float accelerating = currentSpeed < normalSpeed && !_brakePressed ? 1.05f : 1.0f;
-        currentSpeed = currentSpeed * braking * accelerating;
+        float braking = currentSpeed > normalSpeed && !_accelarationPressed ? BrakeRatio : 1.0f;
+        float addBraking = _brakePressed ? BrakeRatio : 1.0f;
+        float accelerating = currentSpeed < normalSpeed && !_brakePressed ? AccelarationRatio : 1.0f;
+        float addAccelaration = _accelarationPressed ? AccelarationRatio : 1.0f;
+        currentSpeed = currentSpeed * braking * addBraking * accelerating * addAccelaration;
         if (currentSpeed < minSpeed)
             currentSpeed = minSpeed;
         if (currentSpeed > maxSpeed)
@@ -122,13 +139,27 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (_jumpPressed)
+        if (_noJumpAccum < noJumpTime)
         {
+            _noJumpAccum += Time.deltaTime;
+            return;
+        }
+
+        if (DebagEnabled)
+        {
+            Debug.Log("jump pressed: " + _jumpPressed);
+            Debug.Log("state: " + state);
+            Debug.Log("normalRotation: " + normalRotation);
+            Debug.Log("_body.freezeRotation: " + _body.freezeRotation);
+        }
+
+        if (_jumpPressed && state == State.GROUNDED && normalRotation && _body.freezeRotation)
+        {
+            state = State.IN_JUMP;
+            _noJumpAccum = 0.0f;
+
             _body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             
-            state = State.IN_JUMP;
-            _jumpPressed = false;
-
             if (salto)
             {
                 DoSalto();
@@ -151,46 +182,73 @@ public class PlayerMovement : MonoBehaviour
 
         _body.AddTorque(saltoSpeed);
         saltoSpeed = normalSalto;
+        normalRotation = false;
     }
 
-    bool CheckGround(float distanceRatio)
+    bool CheckGround()
     {
-        RaycastHit2D[] allHits;
-        allHits = Physics2D.RaycastAll(transform.position, Vector3.down);
+        List<ContactPoint2D> points = new List<ContactPoint2D>();
+        int count = _collider.GetContacts(points);
 
-        var dis = (_collider.size.y * transform.localScale.y) / distanceRatio;
-        foreach (var hit in allHits)
+        foreach (var point in points)
         {
-            if (hit.collider != _collider && hit.distance <= dis)
+            if (point.point.y < transform.position.y)
             {
-                groundHit = hit;
                 return true;
             }
         }
-
         return false;
+
+        //RaycastHit2D[] allHits;
+        //Vector2 leftCorner = new Vector2(_collider.bounds.min.x, _collider.bounds.min.y - leftOffset);
+        //Vector2 rightCorner = new Vector2(_collider.bounds.max.x, _collider.bounds.min.y - rightOffset);
+        //Collider2D hit = Physics2D.OverlapArea(leftCorner, rightCorner);
+
+        //if (hit)
+        //{
+        //    return true;
+        //}
+        //else
+        //{
+        //    return false;
+        //}
+        //var y = transform.position.y - (_collider.size.y * transform.localScale.y) / 2;
+        //allHits = Physics2D.RaycastAll(transform.position, Vector3.down);
+
+        //var dis = (_collider.size.y * transform.localScale.y) / distanceRatio;
+        //foreach (var hit in allHits)
+        //{
+        //    if (hit.collider != _collider && hit.distance <= dis)
+        //    {
+        //        groundHit = hit;
+        //        return true;
+        //    }
+        //}
+
+        //return false;
     }
 
     bool CheckPlatform()
     {
-        MovingPlatform platform = null;
-        Vector3 pScale = Vector3.one;
+        //MovingPlatform platform = null;
+        //Vector3 pScale = Vector3.one;
 
-        platform = groundHit.collider.gameObject.GetComponent<MovingPlatform>();
-        if (platform)
-        {
-            _currentPlatform = groundHit.collider.gameObject;
-            transform.parent = platform.transform;
-            pScale = platform.transform.localScale;
-            transform.localScale = new Vector3(_persScale.x / pScale.x, _persScale.y / pScale.y, 1);
-            return true;
-        }
-        else
-        {
-            transform.localScale = _persScale;
-            transform.parent = null;
-            return false;
-        }
+        //platform = groundHit.collider.gameObject.GetComponent<MovingPlatform>();
+        //if (platform)
+        //{
+        //    _currentPlatform = groundHit.collider.gameObject;
+        //    transform.parent = platform.transform;
+        //    pScale = platform.transform.localScale;
+        //    transform.localScale = new Vector3(_persScale.x / pScale.x, _persScale.y / pScale.y, 1);
+        //    return true;
+        //}
+        //else
+        //{
+        //    transform.localScale = _persScale;
+        //    transform.parent = null;
+        //    return false;
+        //}
+        return false;
     }
 
     void ResetParentTransform()

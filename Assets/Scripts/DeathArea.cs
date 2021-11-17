@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class DeathArea : MonoBehaviour
 {
     public Transform StartPoint;
+    public Transform StartPointEnemy;
     public Transform cam;
 
     private float offsetX;
@@ -23,6 +24,10 @@ public class DeathArea : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.transform.position = StartPoint.position;
+        }
+        if (collision.gameObject.tag == "FollowEnemy")
+        {
+            collision.gameObject.transform.position = StartPointEnemy.position;
         }
     }
 }
