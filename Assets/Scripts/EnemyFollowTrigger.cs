@@ -23,13 +23,13 @@ public class EnemyFollowTrigger : MonoBehaviour
         if (_speedChanging)
         { 
 
-            if (!Mathf.Approximately(enemyMove._currentSpeed, speed))
+            if (!Mathf.Approximately(enemyMove.GetCurrentSpeed(), speed))
             {
-                enemyMove._currentSpeed += _speedAddInFrame;
+                enemyMove.SetCurrentSpeed(enemyMove.GetCurrentSpeed() + _speedAddInFrame);
             }
             accumDelta += Time.deltaTime;
             //пересчет скорости в кадр
-            _speedAddInFrame = (speed - enemyMove._currentSpeed) / ((timeToChangeSpeed - accumDelta) / Time.deltaTime);
+            _speedAddInFrame = (speed - enemyMove.GetCurrentSpeed()) / ((timeToChangeSpeed - accumDelta) / Time.deltaTime);
         }
     }
 
@@ -44,14 +44,15 @@ public class EnemyFollowTrigger : MonoBehaviour
 
             if (jump)
             {
-                enemyMove.Jump(jumpForce);
+                enemyMove.jumpForce = jumpForce;
+                enemyMove.Jump();
             }
             if (setSpeed)
             {
-                var needAdd = speed - enemyMove._currentSpeed;
+                var needAdd = speed - enemyMove.GetCurrentSpeed();
                 if (instantly)
                 {
-                    enemyMove._currentSpeed = enemyMove._currentSpeed + needAdd;
+                    enemyMove.SetCurrentSpeed(enemyMove.GetCurrentSpeed() + needAdd);
                 }
                 else
                 {

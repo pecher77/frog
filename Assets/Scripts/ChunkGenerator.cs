@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class ChunkGenerator : MonoBehaviour
 {
     public Transform Player;
+    public Transform Enemy;
     public Transform FirstChunkPosition;
     public Chunk[] Chunks;
     public Chunk FirstChunk;
@@ -36,9 +37,9 @@ public class ChunkGenerator : MonoBehaviour
         //}
         //else
         //{
-        //    Chunk chunk = Instantiate(FirstChunk);
-        //    chunk.transform.position = FirstChunkPosition.position - chunk.Begin.localPosition;
-        //    spawnedChunks.Add(FirstChunk);
+        //Chunk chunk = Instantiate(FirstChunk);
+        //chunk.transform.position = FirstChunkPosition.position - chunk.Begin.localPosition;
+        //spawnedChunks.Add(FirstChunk);
         //}
 
     }
@@ -46,7 +47,8 @@ public class ChunkGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Player.position.x > spawnedChunks[spawnedChunks.Count - 1].End.position.x - 15)
+        if (Player.position.x > spawnedChunks[spawnedChunks.Count - 1].End.position.x - 15 
+            || Enemy.position.x > spawnedChunks[spawnedChunks.Count - 1].End.position.x - 15)
         {
             SpawnChunk();
         }
