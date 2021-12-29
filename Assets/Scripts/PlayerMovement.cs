@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : BaseMovement
 {
+   
     public float minSpeed = 1.0f;
     public float maxSpeed = 20.0f;
 
@@ -29,19 +30,23 @@ public class PlayerMovement : BaseMovement
 
     private bool _jumpPressed = false;
 
+    public bool NormalRotation { get => normalRotation; set => normalRotation = value; }
+
     void Update()
     {
         CheckState();
         GetInput();
     }
+    
 
     private void CheckState()
     {
+        
         if (CheckGround())
         {
             state = State.GROUNDED;
             transform.rotation = new Quaternion(0, 0, 0, 0);
-            normalRotation = true;
+            NormalRotation = true;
             _body.freezeRotation = true;
         }
         else
@@ -105,7 +110,7 @@ public class PlayerMovement : BaseMovement
             return;
         }
 
-        if (_jumpPressed && state == State.GROUNDED && normalRotation && _body.freezeRotation)
+        if (_jumpPressed && state == State.GROUNDED && NormalRotation && _body.freezeRotation)
         {
             state = State.IN_JUMP;
             _noJumpAccum = 0.0f;
@@ -121,8 +126,10 @@ public class PlayerMovement : BaseMovement
 
     bool CheckGround()
     {
+
         List<ContactPoint2D> points = new List<ContactPoint2D>();
         int count = _collider.GetContacts(points);
+        
 
         foreach (var point in points)
         {

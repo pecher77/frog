@@ -6,7 +6,7 @@ public class BaseMovement : MonoBehaviour
 {
     public float normalSpeed = 7.0f;
     protected float _currentSpeed;
-
+    public bool jumpD = false;
     public bool salto = true;
     public float saltoSpeed = 1.0f;
 
