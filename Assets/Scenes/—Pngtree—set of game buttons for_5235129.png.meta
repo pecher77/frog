@@ -1,0 +1,468 @@
+fileFormatVersion: 2
+guid: 0d377d320a4cf944488ec65fec152ae1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3156660350521233128
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_0"
+  - first:
+      213: 6355638473393601499
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_1"
+  - first:
+      213: -2553467139185296729
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_2"
+  - first:
+      213: -1125351017657403729
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_3"
+  - first:
+      213: 687184324314805867
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_4"
+  - first:
+      213: 1188873654336929379
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_5"
+  - first:
+      213: -7354591777972238826
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_6"
+  - first:
+      213: 1863562687176554915
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_7"
+  - first:
+      213: -7838412195234870165
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_8"
+  - first:
+      213: -1367630156218599804
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_9"
+  - first:
+      213: -1525095839710286290
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_10"
+  - first:
+      213: 4314681388294026775
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_11"
+  - first:
+      213: -4572905794446614340
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_12"
+  - first:
+      213: -6163489029159610162
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_13"
+  - first:
+      213: -5033852018199287421
+    second: "\u2014Pngtree\u2014set of game buttons for_5235129_14"
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_0"
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 3234
+        width: 1253
+        height: 497
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8113f9ac22a4134d0800000000000000
+      internalID: -3156660350521233128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_1"
+      rect:
+        serializedVersion: 2
+        x: 1444
+        y: 3253
+        width: 1131
+        height: 555
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdb7e679483c33850800000000000000
+      internalID: 6355638473393601499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_2"
+      rect:
+        serializedVersion: 2
+        x: 2662
+        y: 3223
+        width: 1254
+        height: 540
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7aa3a3f6a23409cd0800000000000000
+      internalID: -2553467139185296729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_3"
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 2683
+        width: 1254
+        height: 496
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa6f7e83633f160f0800000000000000
+      internalID: -1125351017657403729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_4"
+      rect:
+        serializedVersion: 2
+        x: 1444
+        y: 2652
+        width: 1131
+        height: 554
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b66300a808e598900800000000000000
+      internalID: 687184324314805867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_5"
+      rect:
+        serializedVersion: 2
+        x: 2662
+        y: 2594
+        width: 1254
+        height: 538
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36eb2992a4abf7010800000000000000
+      internalID: 1188873654336929379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_6"
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1939
+        width: 1253
+        height: 498
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 616c4f58ebd3fe990800000000000000
+      internalID: -7354591777972238826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_7"
+      rect:
+        serializedVersion: 2
+        x: 1466
+        y: 1939
+        width: 1253
+        height: 498
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a9b4d1f364bcd910800000000000000
+      internalID: 1863562687176554915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_8"
+      rect:
+        serializedVersion: 2
+        x: 2746
+        y: 1939
+        width: 1254
+        height: 498
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6c8feb53ad583390800000000000000
+      internalID: -7838412195234870165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_9"
+      rect:
+        serializedVersion: 2
+        x: 789
+        y: 1122
+        width: 689
+        height: 686
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4867a727e93350de0800000000000000
+      internalID: -1367630156218599804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_10"
+      rect:
+        serializedVersion: 2
+        x: 1593
+        y: 1122
+        width: 689
+        height: 686
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2e64a10a65c5dae0800000000000000
+      internalID: -1525095839710286290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_11"
+      rect:
+        serializedVersion: 2
+        x: 2378
+        y: 1135
+        width: 851
+        height: 655
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 716314cccd3d0eb30800000000000000
+      internalID: 4314681388294026775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_12"
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 249
+        width: 688
+        height: 685
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb02fa28866c980c0800000000000000
+      internalID: -4572905794446614340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_13"
+      rect:
+        serializedVersion: 2
+        x: 1656
+        y: 249
+        width: 689
+        height: 685
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec89cef2263e67aa0800000000000000
+      internalID: -6163489029159610162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u2014Pngtree\u2014set of game buttons for_5235129_14"
+      rect:
+        serializedVersion: 2
+        x: 2505
+        y: 249
+        width: 687
+        height: 685
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 389295b824a242ab0800000000000000
+      internalID: -5033852018199287421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
