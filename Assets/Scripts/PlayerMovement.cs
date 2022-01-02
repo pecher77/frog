@@ -7,7 +7,7 @@ public class PlayerMovement : BaseMovement
    
     public float minSpeed = 1.0f;
     public float maxSpeed = 20.0f;
-
+    public bool infinityJump = false;
     public float noJumpTime = 0.5f;
     private float _noJumpAccum;
 
@@ -73,7 +73,7 @@ public class PlayerMovement : BaseMovement
         _brakePressed = axis < -0.001f;
         _accelarationPressed = axis > 0.001f;
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) || infinityJump && Input.GetKeyDown(KeyCode.Space))
         {
             _jumpPressed = true;
         }
