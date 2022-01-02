@@ -40,8 +40,6 @@ public class FollowCam : MonoBehaviour
         float y = followEnemy ? (enemy.position.y + offsetY) : (player.position.y + offsetY);
         float x = followEnemy ? (enemy.position.x + offsetX) : (player.position.x + offsetX);
         
-        
-
         if (!freeCamera)
         {
             if (y < lowLimit)
@@ -54,19 +52,27 @@ public class FollowCam : MonoBehaviour
             }
         }
 
-        if (y > startY + borderY)
-        {
-            var overAdded = y - (startY + borderY);
-            //Vector3.SmoothDamp(transform.position, position, ref _velocity, smoothTime).y;
-            _camera.orthographicSize = Vector3.SmoothDamp(new Vector3(_camera.orthographicSize, 0.0f, 0.0f), new Vector3(10.0f, 0.0f, 0.0f), ref _velocity, smoothTime).x;
-            //backGround.localScale = new Vector3(2.5f, 2.5f, backGround.localScale.z);
-        }
-        else
-        {
-            //_camera.orthographicSize = 6;
-            _camera.orthographicSize = Vector3.SmoothDamp(new Vector3(_camera.orthographicSize, 0.0f, 0.0f), new Vector3(6.0f, 0.0f, 0.0f), ref _velocity, smoothTime).x;
-            //backGround.localScale = new Vector3(1f, 1f, backGround.localScale.z);
-        }
+        //if (y > startY + borderY)
+        //{
+        //    var overAdded = y - (startY + borderY);
+        //    //Vector3.SmoothDamp(transform.position, position, ref _velocity, smoothTime).y;
+        //    if (_camera.orthographicSize < 10.0f)
+        //    {
+        //        _camera.orthographicSize = Vector3.SmoothDamp(new Vector3(_camera.orthographicSize, 0.0f, 0.0f), new Vector3(10.0f, 0.0f, 0.0f), ref _velocity, smoothTime).x;
+        //    }
+            
+        //    //backGround.localScale = new Vector3(2.5f, 2.5f, backGround.localScale.z);
+        //}
+        //else
+        //{
+        //    //_camera.orthographicSize = 6;
+        //    if (_camera.orthographicSize > 6.0f)
+        //    {
+        //        _camera.orthographicSize = Vector3.SmoothDamp(new Vector3(_camera.orthographicSize, 0.0f, 0.0f), new Vector3(6.0f, 0.0f, 0.0f), ref _velocity, smoothTime).x;
+        //    }
+                
+        //    //backGround.localScale = new Vector3(1f, 1f, backGround.localScale.z);
+        //}
 
         Vector3 position = new Vector3(x, y, transform.position.z);
         transform.position = Vector3.SmoothDamp(transform.position, position, ref _velocity, smoothTime);
