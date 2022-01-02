@@ -4,58 +4,25 @@ using UnityEngine;
 
 public class PlayerMovement : BaseMovement
 {
-   
     public float minSpeed = 1.0f;
     public float maxSpeed = 20.0f;
     public bool infinityJump = false;
     public float noJumpTime = 0.5f;
     private float _noJumpAccum;
 
-    private bool normalRotation = true;
-
     public float BrakeRatio = 0.9f;
     public float AccelarationRatio = 1.05f;
-    
-    public State state;
-    public enum State
-    {
-        UNDEFINED = 0,
-        GROUNDED,
-        IN_JUMP,
-        HITTED_BY_ENEMY
-    }
     
     private bool _brakePressed = false;
     private bool _accelarationPressed = false;
 
     private bool _jumpPressed = false;
 
-    public bool NormalRotation { get => normalRotation; set => normalRotation = value; }
-
-    void Update()
+    public override void Update() 
     {
-        CheckState();
+        base.Update();
         GetInput();
     }
-    
-
-    private void CheckState()
-    {
-        
-        if (CheckGround())
-        {
-            state = State.GROUNDED;
-            transform.rotation = new Quaternion(0, 0, 0, 0);
-            NormalRotation = true;
-            _body.freezeRotation = true;
-        }
-        else
-        {
-            state = State.IN_JUMP;
-        }
-    }
-
-    public State GetState() { return state;  }
 
     public override void FixedUpdate()
     {
@@ -63,7 +30,7 @@ public class PlayerMovement : BaseMovement
         {
             return;
         }
-        Move();
+        base.FixedUpdate();
         Jump();
     }
 
@@ -110,7 +77,7 @@ public class PlayerMovement : BaseMovement
             return;
         }
 
-        if (_jumpPressed && state == State.GROUNDED && NormalRotation && _body.freezeRotation)
+        if (_jumpPressed && state == State.GROUNDED && normalRotation && _body.freezeRotation)
         {
             state = State.IN_JUMP;
             _noJumpAccum = 0.0f;
@@ -122,23 +89,6 @@ public class PlayerMovement : BaseMovement
                 DoSalto();
             }
         }
-    }
-
-    bool CheckGround()
-    {
-
-        List<ContactPoint2D> points = new List<ContactPoint2D>();
-        int count = _collider.GetContacts(points);
-        
-
-        foreach (var point in points)
-        {
-            if (point.point.y < transform.position.y && point.point.x < _collider.bounds.max.x)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void AddEnemyForce(Vector2 force)

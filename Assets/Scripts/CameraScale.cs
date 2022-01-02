@@ -5,11 +5,15 @@ using UnityEngine;
 public class CameraScale : MonoBehaviour
 {
     public Camera camera;
+    public Transform bg;
     public float normalCameraScale = 6.0f;
     public float farCameraScale = 10.0f;
+    public float normalBGScale = 1.2f;
+    public float farBGScale = 2.5f;
 
     private Vector3 _velocity = Vector3.zero;
     public float smoothCameraTime = 0.2f;
+    public float smoothBGTime = 0.2f;
 
     private float offsetX;
 
@@ -35,9 +39,11 @@ public class CameraScale : MonoBehaviour
                 break;
             case State.Farring:
                 camera.orthographicSize = Vector3.SmoothDamp(new Vector3(camera.orthographicSize, 0.0f, 0.0f), new Vector3(farCameraScale, 0.0f, 0.0f), ref _velocity, smoothCameraTime).x;
+                //bg.localScale = Vector3.SmoothDamp(new Vector3(bg.localScale.x, bg.localScale.y, 0.0f), new Vector3(farBGScale, farBGScale, 0.0f), ref _velocity, smoothBGTime);
                 break;
             case State.Nearing:
                 camera.orthographicSize = Vector3.SmoothDamp(new Vector3(camera.orthographicSize, 0.0f, 0.0f), new Vector3(normalCameraScale, 0.0f, 0.0f), ref _velocity, smoothCameraTime).x;
+                //bg.localScale = Vector3.SmoothDamp(new Vector3(bg.localScale.x, bg.localScale.y, 0.0f), new Vector3(normalBGScale, normalBGScale, 0.0f), ref _velocity, smoothBGTime);
                 break;
         }
         
