@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyFollowMovement : BaseMovement
 {
 
+    public bool useWeapon = false;
     public float forceToPlayerX = 5.0f;
     public float forceToPlayerY = 5.0f;
 
@@ -14,14 +15,18 @@ public class EnemyFollowMovement : BaseMovement
     public override void Start()
     {
         base.Start();
-        StartCoroutine(routine: UseWeapon("Egg"));
+
+        if (useWeapon)
+        {
+            StartCoroutine(routine: UseWeapon("Egg"));
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player" && _shouldHitPlayer)
         {
-            collision.gameObject.GetComponent<PlayerMovement>().AddEnemyForce(new Vector2(forceToPlayerX, forceToPlayerY));
+            //collision.gameObject.GetComponent<PlayerMovement>().AddEnemyForce(new Vector2(forceToPlayerX, forceToPlayerY));
             _shouldHitPlayer = false;
         }
     }

@@ -15,16 +15,18 @@ public class CircleSpin : MonoBehaviour
         ACCELERATING
     }
 
+    public GameObject[] platforms;
+    private List<Rigidbody2D> platformRigidBodies;
+
+    public bool spinByPhysics = false;
+
     [Header("Common")]
     public float speedX = 0.0f;
     public float speedY = 0.0f;
     public float speedZ = 100.0f;
-    public GameObject platform1;
-    public GameObject platform2;
 
     private Rigidbody2D _circleBody;
-    private Rigidbody2D _pl1Body;
-    private Rigidbody2D _pl2Body;
+
     private float _currentRotateSpeed;
 
     public SpinType spin = SpinType.SIMPLE;
@@ -62,32 +64,34 @@ public class CircleSpin : MonoBehaviour
     private void Start()
     {
         _circleBody = GetComponent<Rigidbody2D>();
-        //_pl1Body = platform1.GetComponent<Rigidbody2D>();
-        //_pl2Body = platform1.GetComponent<Rigidbody2D>();
 
-    }
-    void Update()
-    {
-        
-        //transform.Rotate(speedX, speedY, currRotateSpeed * Time.deltaTime);
-        //_pl1Body.MoveRotation(-currRotateSpeed * Time.deltaTime);
-        //_pl2Body.MoveRotation(-currRotateSpeed * Time.deltaTime);
-
-        //platform1.transform.Rotate(-speedX, -speedY, -currRotateSpeed * Time.deltaTime);
-        //platform2.transform.Rotate(-speedX, -speedY, -currRotateSpeed * Time.deltaTime);
+        //platformRigidBodies = new List<Rigidbody2D>();
+        //foreach (var item in platforms)
+        //{
+        //    var rg = item.GetComponent<Rigidbody2D>();
+        //    platformRigidBodies.Add(rg);
+        //}
     }
 
     private void FixedUpdate()
     {
-        //_circleBody.MoveRotation(GetRotateSpeed());
         var rotateSpeed = GetRotateSpeed();
-        //_circleBody.MoveRotation(rotateSpeed);
-        _circleBody.AddTorque(rotateSpeed);
-        //_pl1Body.rotation = -rotateSpeed;
-        //_pl2Body.rotation = -rotateSpeed;
-        //_circleBody.angularVelocity = 1;
-        // transform.Rotate(speedX, speedY, currRotateSpeed * Time.deltaTime);
-
+        if (spinByPhysics)
+        {
+            _circleBody.AddTorque(rotateSpeed);
+            //foreach (var item in platformRigidBodies)
+            //{
+            //    item.AddTorque(-rotateSpeed);
+            //}
+        }
+        else
+        {
+            transform.Rotate(0, 0, rotateSpeed);
+            //foreach (var item in platformRigidBodies)
+            //{
+            //    item.transform.Rotate(0, 0, rotateSpeed);
+            //}
+        }
     }
 
     float GetRotateSpeed()

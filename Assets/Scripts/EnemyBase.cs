@@ -13,10 +13,10 @@ public class EnemyBase : MonoBehaviour
 
     virtual public void Update()
     {
-        if (trigger.IsPlayerReached() && !started)
-        {
-            Attack();
-        }
+        //if (trigger.IsPlayerReached() && !started)
+        //{
+        //    Attack();
+        //}
     }
 
     virtual public void Attack()

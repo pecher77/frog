@@ -69,6 +69,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -77,9 +78,9 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -100
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -460,6 +461,22 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      "\u2014Pngtree\u2014set of game buttons for_5235129_3": -1125351017657403729
+      "\u2014Pngtree\u2014set of game buttons for_5235129_9": -1367630156218599804
+      "\u2014Pngtree\u2014set of game buttons for_5235129_12": -4572905794446614340
+      "\u2014Pngtree\u2014set of game buttons for_5235129_2": -2553467139185296729
+      "\u2014Pngtree\u2014set of game buttons for_5235129_7": 1863562687176554915
+      "\u2014Pngtree\u2014set of game buttons for_5235129_13": -6163489029159610162
+      "\u2014Pngtree\u2014set of game buttons for_5235129_11": 4314681388294026775
+      "\u2014Pngtree\u2014set of game buttons for_5235129_0": -3156660350521233128
+      "\u2014Pngtree\u2014set of game buttons for_5235129_10": -1525095839710286290
+      "\u2014Pngtree\u2014set of game buttons for_5235129_14": -5033852018199287421
+      "\u2014Pngtree\u2014set of game buttons for_5235129_1": 6355638473393601499
+      "\u2014Pngtree\u2014set of game buttons for_5235129_4": 687184324314805867
+      "\u2014Pngtree\u2014set of game buttons for_5235129_5": 1188873654336929379
+      "\u2014Pngtree\u2014set of game buttons for_5235129_8": -7838412195234870165
+      "\u2014Pngtree\u2014set of game buttons for_5235129_6": -7354591777972238826
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
