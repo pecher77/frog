@@ -34,10 +34,10 @@ public class ScoreManager : MonoBehaviour
 
     void AddScore()
     {
-        //score++;
-        var distance = (int)(player.transform.position.x - _startX);
-        //_score = (int)score;
-        ScoreText.text = "Distance: " + distance.ToString() + "m";
+        ////score++;
+        //var distance = (int)(player.transform.position.x - _startX);
+        ////_score = (int)score;
+        //ScoreText.text = "Distance: " + distance.ToString() + "m";
     }
 
 

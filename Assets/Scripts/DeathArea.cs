@@ -24,6 +24,7 @@ public class DeathArea : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.transform.position = StartPoint.position;
+            //WindowManager.instance.OpenWindow("SettingsWindow");
         }
         if (collision.gameObject.tag == "FollowEnemy")
         {

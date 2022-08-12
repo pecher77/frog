@@ -51,6 +51,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -59,9 +60,9 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -100
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -1933,6 +1934,93 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Static_Objects_68: 3206430104736158182
+      Static_Objects_22: -8027042390671629137
+      Static_Objects_74: 1710803721553197856
+      Static_Objects_75: 2217057481961594101
+      Static_Objects_1: 7116959294415330240
+      Static_Objects_49: 2886511970399605738
+      Static_Objects_26: -2330844765325049834
+      Static_Objects_23: -8790863916781087062
+      Static_Objects_78: 834041451023405098
+      Static_Objects_57: 3483726386940160812
+      Static_Objects_16: 6480544093321636145
+      Static_Objects_27: -7460356245835630128
+      Static_Objects_47: -2568390433886239180
+      Static_Objects_12: -8687901910725891306
+      Static_Objects_34: 8197790906513328090
+      Static_Objects_69: -230287801062041995
+      Static_Objects_71: 8962624968606512130
+      Static_Objects_21: 7328842387544642397
+      Static_Objects_52: -3501299373632075136
+      Static_Objects_14: 3317544804663310937
+      Static_Objects_5: -4123958872872003297
+      Static_Objects_58: -6266022633456736993
+      Static_Objects_45: -8294051000663083465
+      Static_Objects_39: -5726406086890325264
+      Static_Objects_40: -1894526098730383321
+      Static_Objects_67: 4794733429011145102
+      Static_Objects_53: 8269687310278901000
+      Static_Objects_15: 4915005875621723230
+      Static_Objects_4: -8250796309230062870
+      Static_Objects_31: 6096272677377385489
+      Static_Objects_41: -544554022216331145
+      Static_Objects_38: -1485215846114859350
+      Static_Objects_79: -2449825522142410629
+      Static_Objects_29: -1656703217756308940
+      Static_Objects_37: -2832978160637641112
+      Static_Objects_65: -6788684056244566953
+      Static_Objects_46: 6618239196897231433
+      Static_Objects_30: -8636278172298109885
+      Static_Objects_51: 6810197268958032306
+      Static_Objects_55: -5657430342692659367
+      Static_Objects_10: 8181219408955046235
+      Static_Objects_50: -2243089080754650294
+      Static_Objects_13: -7370428636956718256
+      Static_Objects_77: -603266628059870141
+      Static_Objects_83: -3515385089263798502
+      Static_Objects_61: 2329465780331719187
+      Static_Objects_42: 3240014476904323483
+      Static_Objects_81: -6653326115029561675
+      Static_Objects_6: 5773676427819104179
+      Static_Objects_32: 333656737483482489
+      Static_Objects_8: -4445414674697734836
+      Static_Objects_60: -8845421178700447413
+      Static_Objects_36: 545024004859262582
+      Static_Objects_82: -6481663629920168570
+      Static_Objects_70: -1489809716313620874
+      Static_Objects_66: 6364222560480229519
+      Static_Objects_19: 7988221225486500394
+      Static_Objects_84: 8242587891807925473
+      Static_Objects_3: -6022215802627593589
+      Static_Objects_63: 5802326461932329642
+      Static_Objects_9: -7822402244389913634
+      Static_Objects_18: 4572232901167292850
+      Static_Objects_0: 7072218363365707441
+      Static_Objects_76: 6392317194757745521
+      Static_Objects_85: 1742802013139603292
+      Static_Objects_24: 986722613508335754
+      Static_Objects_62: 9025586813237085266
+      Static_Objects_28: -6499737426104107377
+      Static_Objects_80: -5247869923993700183
+      Static_Objects_54: 8793456963092318286
+      Static_Objects_48: 5153216891707673145
+      Static_Objects_73: 1198189267811045056
+      Static_Objects_44: 4056496474684330915
+      Static_Objects_72: 4625778838418985069
+      Static_Objects_20: 6732278906631757258
+      Static_Objects_2: -3250243890202020720
+      Static_Objects_11: -6224021324327296585
+      Static_Objects_59: 7191511735306116232
+      Static_Objects_33: -1207259003640788823
+      Static_Objects_17: 8988069805064677021
+      Static_Objects_35: -7597647173256712112
+      Static_Objects_7: 7689684906411031611
+      Static_Objects_25: -2502060603257811814
+      Static_Objects_56: 1837123088098435218
+      Static_Objects_64: -1750779016443550483
+      Static_Objects_43: 3860377667843953251
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

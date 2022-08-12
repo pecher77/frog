@@ -7,8 +7,6 @@ public class PlayerMovement : BaseMovement
     public float minSpeed = 1.0f;
     public float maxSpeed = 20.0f;
     public bool infinityJump = false;
-    public float noJumpTime = 0.5f;
-    private float _noJumpAccum;
 
     public float BrakeRatio = 0.9f;
     public float AccelarationRatio = 1.05f;
@@ -16,22 +14,49 @@ public class PlayerMovement : BaseMovement
     private bool _brakePressed = false;
     private bool _accelarationPressed = false;
 
-    private bool _jumpPressed = false;
+    private bool _jumpWasPressedInFrame = false;
+    private bool _jumpHolding = false;
+    private bool _needUnhook = false;
+
+    private AnchoredJoint2D _joint = new AnchoredJoint2D();
+
+    private bool _isColliding = false;
+
+    private GameObject _jointObject;
+    private Joint _jointSettings = null;
+    private Vector3 _jointObjectWorldPoint;
+    public int jumpForceFromJoint = 50;
+    
+    public float timeBetweenSwings = 0.1f;
+
+    public float gravityScaleAfterSwing = 10.0f;
+    private float _normalGravityScale;
+
+    private Vector3 _startPointToJumpFromJoint;
+    public override void Start()
+    {
+        base.Start();
+        _normalGravityScale = _body.gravityScale;
+    }
+
+    bool RecallFixedUpdateInFrame()
+    {
+        //вызывается второй раз в кадре
+        if (_prevFixedUpdateFrame == Time.frameCount)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public override void Update() 
     {
+        _jumpWasPressedInFrame = false;
+
         base.Update();
         GetInput();
-    }
 
-    public override void FixedUpdate()
-    {
-        if (state == State.HITTED_BY_ENEMY)
-        {
-            return;
-        }
-        base.FixedUpdate();
-        Jump();
+        _isColliding = false;
     }
 
     void GetInput()
@@ -40,14 +65,51 @@ public class PlayerMovement : BaseMovement
         _brakePressed = axis < -0.001f;
         _accelarationPressed = axis > 0.001f;
 
-        if (Input.GetKey(KeyCode.Space) || infinityJump && Input.GetKeyDown(KeyCode.Space))
+        //отжали после держания
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            _jumpPressed = true;
+            _jumpWasPressedInFrame = false;
+            _jumpHolding = false;
+            if (state == State.SWING)
+            {
+                _needUnhook = true;
+            }
+
+            return;
         }
-        else
+
+        if (Input.GetKey(KeyCode.Space))
         {
-            _jumpPressed = false;
-        } 
+            //только что нажата
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _jumpWasPressedInFrame = true;
+            }
+            else //держим
+            {
+                _jumpHolding = true;
+            }
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate(); //Move
+
+        if (state == State.SWING)
+        {
+            //if (CanSwing())
+            //{
+            Swing();
+            //}
+        }
+
+        if (RecallFixedUpdateInFrame())
+        {
+            return;
+        }
+
+        Jump();
     }
 
     public override void Move()
@@ -66,43 +128,253 @@ public class PlayerMovement : BaseMovement
             _currentSpeed = maxSpeed;
         }
 
-        _body.AddForce(new Vector2(_currentSpeed, _body.velocity.y), ForceMode2D.Force);
+        base.Move();
     }
 
     public override void Jump()
     {
-        if (_noJumpAccum < noJumpTime)
+        //if (state == State.HANG)
+        //{
+        //    //отжали кнопку в висе
+        //    if (_needUnhook || _jumpWasPressedInFrame)
+        //    {
+        //        OnUnhook();
+        //        return;
+        //    }
+
+        //    //if (_jumpWasInHang)
+        //    //{
+        //    //    //раскачиваемся
+        //    //    if (_jumpHolding)
+        //    //    {
+        //    //        //даем силу только в 3 доле
+        //    //        if (CanSwing())
+        //    //        {
+        //    //            //Swing();
+        //    //        }
+        //    //        return;
+        //    //    }
+
+        //    //}
+        //    //else //прыжок не был нажат при висе
+        //    //{
+        //    //    if (_jumpWasPressedInFrame)
+        //    //    {
+        //    //        _jumpWasInHang = true;
+        //    //        //раскачиваемся
+        //    //        //Swing();
+        //    //        return;
+        //    //    }
+        //    //}
+        //    //return;
+        //}
+
+        if (!_jumpWasPressedInFrame && !_jumpHolding)
         {
-            _noJumpAccum += Time.deltaTime;
             return;
         }
 
-        if (_jumpPressed && state == State.GROUNDED && normalRotation && _body.freezeRotation)
+        //обычный прыжок
+        if (state == State.GROUNDED && normalRotation && _body.freezeRotation)
         {
-            state = State.IN_JUMP;
-            _noJumpAccum = 0.0f;
+            base.Jump();
+        }
 
-            _body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            
-            if (salto)
-            {
-                DoSalto();
-            }
+    }
+
+    public void Swing()
+    {
+        if (_needUnhook)
+        {
+            OnUnhook();
+            return;
+        }
+
+        if (_joint != null)
+        {
+            var direction = GetDirectionForSwing();
+            var force = GetForceForSwing();
+            var forceType = _jointSettings.forceType;
+            _body.AddForce(direction * force, forceType);
+        }
+        else
+        {
+            OnUnhook();
         }
     }
 
-    public void AddEnemyForce(Vector2 force)
+    public void OnUnhook()
     {
-        StartCoroutine(routine: AddEnemyForceCoroutine(force));
+        _needUnhook = false;
+        
+        _startPointToJumpFromJoint = transform.position;
+        
+        gameObject.GetComponent<AnchoredJoint2D>().enabled = false;
+        transform.rotation = new Quaternion(0, 0, 0, 0);
+        _body.freezeRotation = true;
+
+        Destroy(_joint);
+        _joint = null;
+
+        state = State.IN_JUMP_AFTER_SWING;
+        _body.gravityScale = gravityScaleAfterSwing;
+        _body.AddForce(GetDirectionForSwing() * jumpForceFromJoint, ForceMode2D.Impulse);
+        _jointSettings = null;
+
     }
 
-    public IEnumerator AddEnemyForceCoroutine(Vector2 force)
+    public Vector3 GetDirectionForSwing()
     {
-        state = State.HITTED_BY_ENEMY;
+        var rightDirection = Vector2.right;
+        var directionToJoint = _jointObjectWorldPoint - transform.position;
+        var rotatedDirection = Quaternion.Euler(0, 0, _jointSettings.forceAngle) * directionToJoint;
+        return rotatedDirection;
+    }
 
-        _body.AddForce(force, ForceMode2D.Impulse);
+    public float GetForceForSwing()
+    {
+        return _jointSettings.force;
+    }
 
-        yield return new WaitForSeconds(10);
-        state = State.UNDEFINED;
+    public bool CanSwing() 
+    {
+        return transform.position.y < _jointObjectWorldPoint.y || 
+            (transform.position.y > _jointObjectWorldPoint.y &&
+            transform.position.x < _jointObjectWorldPoint.x);
+    }
+
+    public void OnJoint(Joint joint)
+    {
+        //Time.timeScale = 0.8f;
+        _jointSettings = joint;
+        _body.gravityScale = _normalGravityScale;
+        _jointObject = joint.gameObject;
+        _body.freezeRotation = false;
+        transform.position = _jointObject.transform.position + joint.playerStartPositionOffset;
+        _jointObjectWorldPoint = _jointObject.transform.position;
+        transform.rotation = new Quaternion(0, 0, 0, 0);
+        _canMove = false;
+
+        switch (joint.jointType)
+        {
+            case Joint.JointType.HINGE_JOINT:
+                SetupHingeJoint(joint);
+                break;
+            case Joint.JointType.SPRING_JOINT:
+                SetupSpringJoint(joint);
+                break;
+            case Joint.JointType.WHEEL_JOINT:
+                SetupWheelJoint(joint);
+                _joint = gameObject.AddComponent<WheelJoint2D>();
+                break;
+            case Joint.JointType.FIXED_JOINT:
+                SetupFixedJoint(joint);
+                _joint = gameObject.AddComponent<FixedJoint2D>();
+                break;
+            default:
+                break;
+        }
+
+       
+        _joint.enabled = true;
+        state = State.SWING;
+        
+    }
+
+    private void SetupHingeJoint(Joint joint)
+    {
+        _joint = gameObject.AddComponent<HingeJoint2D>();
+        _joint.anchor = transform.InverseTransformPoint(_jointObjectWorldPoint);
+        _joint.connectedBody = _jointObject.GetComponent<Rigidbody2D>();
+        _joint.connectedAnchor = new Vector3(0, 0, 0);
+    }
+
+    private void SetupSpringJoint(Joint joint)
+    {
+        _joint = gameObject.AddComponent<SpringJoint2D>();
+        var springJoint = ((SpringJoint2D)_joint);
+        _joint.connectedBody = _jointObject.GetComponent<Rigidbody2D>();
+        springJoint.autoConfigureDistance = false;
+        springJoint.distance = joint.springDistance;
+        springJoint.frequency = joint.springFrequency;
+        springJoint.dampingRatio = joint.springDampingRatio;
+        //анчор на игроке
+        _joint.anchor = new Vector3(0, 0, 0);
+        //коннектед анчор - конец веревки на ящике
+        _joint.connectedAnchor = new Vector3(0, 0, 0);
+
+    }
+
+    private void SetupWheelJoint(Joint joint)
+    {
+        _joint = gameObject.AddComponent<WheelJoint2D>();
+        var wheelJoint = ((WheelJoint2D)_joint);
+        _joint.connectedBody = _jointObject.GetComponent<Rigidbody2D>();
+        //springJoint.autoConfigureDistance = false;
+        //springJoint.distance = joint.springDistance;
+        //springJoint.frequency = joint.springFrequency;
+        //анчор на игроке
+        _joint.anchor = new Vector3(0, 0, 0);
+        //коннектед анчор - конец веревки на ящике
+        _joint.connectedAnchor = new Vector3(0, 0, 0);
+    }
+
+    private void SetupFixedJoint(Joint joint)
+    {
+        _joint = gameObject.AddComponent<FixedJoint2D>();
+        var fixedJoint = ((FixedJoint2D)_joint);
+        _joint.connectedBody = _jointObject.GetComponent<Rigidbody2D>();
+        fixedJoint.autoConfigureConnectedAnchor = false;
+        //анчор на игроке
+        _joint.anchor = new Vector3(0, 0, 0);
+        //коннектед анчор - конец веревки на ящике
+        _joint.connectedAnchor = new Vector3(0, 0, 0);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (_isColliding)
+        {
+            return;
+        }
+
+        if (_jointObject == collision.gameObject)
+        {
+            return;
+        }
+
+        _isColliding = true;
+
+        var isJoint = collision.gameObject.GetComponent<Joint>();
+        if (isJoint != null)
+        {
+            OnJoint(isJoint);
+        }
+    }
+
+    public override void OnGround()
+    {
+        base.OnGround();
+        _canMove = true;
+        _animator.SetInteger("state", (int)state);
+        _jointObject = null;
+        _body.gravityScale = _normalGravityScale;
+        Time.timeScale = 1.0f;
+    }
+
+    public override void OnJump()
+    {
+        base.OnJump();
+        _animator.SetInteger("state", (int)state);
+    }
+
+    void OnDrawGizmos()
+    {
+        if (state == State.SWING && _joint != null)
+        {
+            var direction = GetDirectionForSwing();
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, transform.position + direction);
+        }
     }
 }
